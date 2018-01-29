@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/anlapier91/Project-2#readme",
   "dependencies": {
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
     "sequelize": "^4.32.2"
