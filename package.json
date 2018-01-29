@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/anlapier91/Project-2#readme",
   "dependencies": {
+    "d20": "^1.4.1",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "mysql": "^2.15.0",
