@@ -1,7 +1,10 @@
+var characterScripts = require("characterScripts.js");
+
 $(document).ready(function() {
-    attackButton.onclick(function(){
-    combatTurn(character1, character2);
-    combatTurn(character2, character1);
+    $(".character").onclick(function(event) {
+        console.log("character clicked");
+        event.preventDefault();
+        characterScripts.choosePlayer();
     });
-}
+});
 

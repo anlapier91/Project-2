@@ -18,6 +18,7 @@ app.use(express.static("public"));
 require("./routes/monster-api-routes.js")(app);
 require("./routes/combatant-api-routes.js")(app);
 require("./routes/user-api-routes.js")(app);
+require("./routes/html-routes.js")(app);
 
 
 db.sequelize.sync().then(function()
