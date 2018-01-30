@@ -15,6 +15,25 @@ module.exports = function(app)
       });
     });
 
+    app.get("/api/combatant/:id", function(req, res)
+    {
+    //   console.log("in api combatants get");
+        db.Combatant.findAll(
+        { 
+            where: 
+            {
+                id :req.params.id
+            },
+            include: [db.Monster]
+        }
+        //   {include: db.Monster}
+        ).then(function(dbCombatant)
+      {
+        //   console.log("combatant api/combatant json output");
+        res.json(dbCombatant);
+      });
+    });
+
     app.post("/api/new", function(req, res)
     {  
         // console.log("in post /api/new");

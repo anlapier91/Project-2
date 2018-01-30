@@ -6,6 +6,7 @@ module.exports = function(sequelize, DataTypes)
         //plan to create additional tables to handle multiple attacks and 
         //other abilities
         name: DataTypes.STRING,
+        image: DataTypes.STRING,
         size: DataTypes.STRING,
         creatureType: DataTypes.STRING,
         alignment: DataTypes.STRING,
