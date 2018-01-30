@@ -12,6 +12,7 @@ module.exports = function(sequelize, DataTypes)
         // armorClass: DataTypes.INTEGER,
         currentHP: DataTypes.INTEGER,
         initiative: DataTypes.INTEGER,
+        userControlled: DataTypes.BOOLEAN
         // defaultHP: DataTypes.INTEGER,
         // hitDie: DataTypes.STRING,
         // baseHD: DataTypes.INTEGER,
@@ -38,10 +39,10 @@ module.exports = function(sequelize, DataTypes)
     {
         Combatant.belongsTo(models.Monster, 
         {
-            // foreignKey: 
-            // {
-            //     allowNull: false
-            // }
+            foreignKey: 
+            {
+                allowNull: false
+            }
         });
     };
     
