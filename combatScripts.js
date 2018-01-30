@@ -13,48 +13,73 @@ function initiative(){
 }
 
 function initiativeResult(){
-    if (result.character1 < result.character2) {
-       attackRoll()
-
-
-    } else if{ 
-        
-    } else{
-        // compare dex mod
+    if (character1.initiative < character2.initiative) {
+       return false;
     }
-
+    else {
+        return true;
+    }
 }
 
-function attackRoll(){
+function attackRoll(char1, char2){
    var result =  Math.floor(Math.random() * 20) + 1;
     console.log(result);
-    if (attackRoll.character2 >= dexterity.character1){
+    if (char2.attackRoll >= char1.dexterity){
         return true;
     } else{
         return false;
     }
 }
 
-function damageRoll(){
+function damageRoll(char1, char2){
    var result =  Math.floor(Math.random() * 20) + 1;
     console.log(result);
-    currentHP.character1-=(result);
+    char1.currentHP-=(result);
 }
 
 function gameOver(){
-    if (currentHP.character1 <= 0){
+    if (character1.currentHP <= 0){
         console.log("You have been defeated! Would you like to play again?");
+        return true;
     }
-    if (currentHP.character2 <= 0){
+    if (character2.currentHP <= 0){
         console.log("You have emerged victorious! Would you like to play again?");
+        return true;
     }
 }
 
 function combatTurn(character1, character2){
-    if (attackRoll()){
-        damageRoll();
-        gameOver();
+
+    function gameOver(){
+        if (character1.currentHP <= 0){
+            console.log("You have been defeated! Would you like to play again?");
+            return true;
+        }
+        if (character2.currentHP <= 0){
+            console.log("You have emerged victorious! Would you like to play again?");
+            return true;
+        }
     }
+
+    if (initiativeResult()){
+        if (attackRoll(character1, character2)){
+            damageRoll(character1, character2);
+        }
+        if (!gameOver() && attackRoll(character2, character1)){
+            damageRoll(character2, character1);
+            gameOver();
+        }
+    }
+    else {
+        if (attackRoll(character2, character1)){
+            damageRoll(character2, character1);
+        }
+        if (!gameOver() && attackRoll(character1, character2)){
+            damageRoll(character1, character2);
+            gameOver();
+        }
+    }
+   
 }
 
 module.export = combatTurn;
