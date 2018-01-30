@@ -20,7 +20,7 @@ module.exports = function(app)
   {
     db.User.create(req.body).then(function(dbUser)
     { 
-      res.json.(dbUser);
+      res.json(dbUser);
     });
   });
 
