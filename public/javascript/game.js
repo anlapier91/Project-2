@@ -1,3 +1,5 @@
+var combat = require("javascript/combatScripts.js");
+
 $(document).ready(function() {
 	var myChar, opponentChar, choices, enemyArray, haveCharacter, haveAttacker, numEnemies, rounds;	//Set Global Variables
 	var wins = 0;
@@ -107,6 +109,11 @@ $(document).ready(function() {
 
 	$('#restart').on("click", function(){
 		varSet();
+	});
+
+	$("#attack").on("click", function()
+	{
+
 	});
 
 	attachCharacterOnClick();
