@@ -72,4 +72,13 @@ module.exports = function(app)
             res.json(dbCombatant);
         });
     });
+
+    app.delete("/api/removeAllCombatants", function(req, res) {
+        db.Combatant.destroy({
+            where: {},
+            truncate: true
+        }).then(function(dbCombatant) {
+            res.json(dbCombatant);
+        });
+    });
 };
