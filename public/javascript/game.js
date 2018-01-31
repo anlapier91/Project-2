@@ -93,6 +93,7 @@ $(document).ready(function() {
 				$("#todo").html("Choose your opponent!");
 
 				var id = $(this).attr('id');
+
 				$.get("api/monsters/" + id, function (data) 
 				{
 					console.log(data);
@@ -119,6 +120,24 @@ $(document).ready(function() {
 				haveAttacker = true;
 				$('#whathappens').html("");
 				$("#todo").html("Keep clicking attack to duel!");
+
+				var id = $(this).attr('id');
+				$.get("api/monsters/" + id, function (data) 
+				{
+					console.log(data);
+						var character1 = {
+								currentHP: data[0].defaultHP,
+								initiative: data[0].dexterity,
+								userControlled: false,
+								MonsterId: id
+						}
+						
+						$.post("api/new", character1, function()
+						{
+							console.log(character1);
+								//reload page(with 1st character)
+						});
+				});
 			}
 		});
 	}
