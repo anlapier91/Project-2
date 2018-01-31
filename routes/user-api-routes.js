@@ -54,4 +54,46 @@ module.exports = function(app)
       res.json(req.user);
     }
   });
+
+  app.put("/api/updateWins/", function(req, res)
+  {
+    db.User.update(
+    {
+      wins: parseInt(req.body.wins)
+    },
+    {
+      where: 
+      {
+        email : req.body.email
+      }
+    });
+  });
+
+  app.put("/api/updateLosses/", function(req, res)
+  {
+    db.User.update(
+    {
+      losses: parseInt(req.body.losses)
+    },
+    {
+      where: 
+      {
+        email : req.body.email
+      }
+    });
+  });
+
+  app.put("/api/updateTies/", function(req, res)
+  {
+    db.User.update(
+    {
+      ties: parseInt(req.body.ties)
+    },
+    {
+      where: 
+      {
+        email : req.body.email
+      }
+    });
+  });
 };

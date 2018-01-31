@@ -142,18 +142,42 @@ $(document).ready(function() {
 		});
 	}
 
+	function getRecord () {
+		$.get("/api/user_data").then(function(data) {
+			$("#winsloses").text("Player: " + data.email + " Wins: " + data.wins + " Losses: " + data.losses + " Ties: " + data.ties);
+		});
+	}
 
 
 	$('#restart').on("click", function(){
 		varSet();
+		$.ajax({
+      method: "DELETE",
+			url: "/api/removeAllCombatants/"
+    })
+    .then(function() {
+      console.log("worked?");
+    });
 	});
 
 	$("#attack").on("click", function()
 	{
+		var test = {	wins: 7,	email: "ase@gmail.com"	};
 
+		// $.put("/api/updateWins", test, function(data){
+		// 	console.log("put request for user");
+		// });
+		// $.ajax({
+    //   method: "PUT",
+		// 	url: "/api/updateWins/",
+		// 	data: test
+    // })
+    // .then(function() {
+    //   console.log("worked?");
+    // });
 	});
 
 	attachCharacterOnClick();
 	varSet();
-
+	getRecord();
 });

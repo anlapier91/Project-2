@@ -40,10 +40,10 @@ module.exports = function(sequelize, DataTypes)
         // When an Author is deleted, also delete any associated Posts
         Monster.hasMany(models.Combatant, 
         {
-            // foreignKey: 
-            // {
-            //     allowNull: false
-            // }
+            foreignKey: 
+            {
+                allowNull: false
+            }
         });
     };
     return Monster;
