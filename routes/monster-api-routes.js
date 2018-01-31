@@ -26,5 +26,14 @@ module.exports = function(app)
       });
     });
 
+    app.post("/api/newMonster", function(req, res)
+    {  
+        // console.log("in post /api/new");
+      db.Monster.create(req.body).then(function(dbMonster) 
+      {
+        res.json(dbMonster);
+      });
+    });
+
 
 };
