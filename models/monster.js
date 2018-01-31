@@ -22,13 +22,13 @@ module.exports = function(sequelize, DataTypes)
         intelligence: DataTypes.INTEGER,
         wisdom: DataTypes.INTEGER,
         charisma: DataTypes.INTEGER,
-        challangeRating: DataTypes.INTEGER, 
+        challengeRating: DataTypes.INTEGER, 
         attackName: DataTypes.STRING,
         attackBonus: DataTypes.INTEGER,
         attackRange: DataTypes.INTEGER,
         attackTargets: DataTypes.INTEGER,
         damageDie: DataTypes.STRING,
-        damageModifier: DataTypes.INTEGER
+        damageModifier: DataTypes.INTEGER,
     }, 
     {
 		timestamps: false
