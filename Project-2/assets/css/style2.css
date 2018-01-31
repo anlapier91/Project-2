@@ -1,0 +1,7 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {
+	background-image: url(../images/castle.jpg);
+	opacity: 70%;
+	background-size: cover;
