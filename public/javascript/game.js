@@ -1,4 +1,4 @@
-var combat = require("javascript/combatScripts.js");
+// var combat = require("javascript/combatScripts.js");
 
 $(document).ready(function() {
 	var myChar, opponentChar, choices, enemyArray, haveCharacter, haveAttacker, numEnemies, rounds;	//Set Global Variables
@@ -91,6 +91,24 @@ $(document).ready(function() {
 				haveCharacter = true;
 				$('#whathappens').html("");
 				$("#todo").html("Choose your opponent!");
+
+				var id = $(this).attr('id');
+				$.get("api/monsters/" + id, function (data) 
+				{
+					console.log(data);
+						var character1 = {
+								currentHP: data[0].defaultHP,
+								initiative: data[0].dexterity,
+								userControlled: true,
+								MonsterId: id
+						}
+						
+						$.post("api/new", character1, function()
+						{
+							console.log(character1);
+								//reload page(with 1st character)
+						});
+				});
 			}
 			//Pick Openent
 			else if(!haveAttacker && haveCharacter && myChar !== $(this).attr('id')) {	
