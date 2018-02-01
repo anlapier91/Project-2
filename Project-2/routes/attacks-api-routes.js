@@ -22,9 +22,8 @@ module.exports = function(app)
 	});
 
 	app.post("/api/newAttack", function(req, res)
-    {  
-        // console.log("in post /api/new");
-      db.Attack.create(req.body).then(function(dbAttack) 
+    {
+    	db.Attack.create(req.body).then(function(dbAttack) 
       {
         res.json(dbAttack);
       });

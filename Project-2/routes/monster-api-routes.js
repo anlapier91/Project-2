@@ -26,5 +26,25 @@ module.exports = function(app)
       });
     });
 
+    app.post("/api/newMonster", function(req,res) {
+      db.Monster.create(req.body).then(function(dbMonster) {
+        res.json(dbMonster);
+      });
+    });
 
-};
+    app.delete("/api/removeMonster/:id", function(req, res)
+    {
+        // console.log("in delete /api/removeCombatant/:id");
+        db.Monster.destroy({
+            where: 
+            {
+                id: req.params.id
+            }
+        }).then(function(dbMonster)
+        {
+            res.json(dbMonster);
+        });
+    });
+
+
+}; 
