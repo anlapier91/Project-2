@@ -13,26 +13,26 @@ $(document).ready(function() {
 		// 	id: 0,
 		// 	name: "Character 1",
 		// 	pic: 'http://via.placeholder.com/100x175',
-		// 	hitPoints: 150,
-		// 	attackPower: 5
+		// 	currentHP: 150,
+		// 	attackBonus: 5
 		// }, {
 		// 	id: 1,
 		// 	name: "Character 2",
 		// 	pic: 'http://via.placeholder.com/100x175',
-		// 	hitPoints: 100,
-		// 	attackPower: 25 		
+		// 	currentHP: 100,
+		// 	attackBonus: 25 		
 		// }, {
 		// 	id: 2,
 		// 	name: "Character 3",
 		// 	pic: 'http://via.placeholder.com/100x175',
-		// 	hitPoints: 120,
-		// 	attackPower: 19 
+		// 	currentHP: 120,
+		// 	attackBonus: 19 
 		// }, {
 		// 	id: 3,
 		// 	name: "Character 4",
 		// 	pic: 'http://via.placeholder.com/100x175',
-		// 	hitPoints: 140,
-		// 	attackPower: 9 
+		// 	currentHP: 140,
+		// 	attackBonus: 9 
 		// } ];
 
 		$.get("/api/monsters").then(function(data){
@@ -43,9 +43,9 @@ $(document).ready(function() {
 				{
 					id: data[j].id,
 					name: data[j].name,
-					pic: data[j].image,
-					hitPoints: data[j].defaultHP,
-					attackPower: data[j].attackBonus
+					image: data[j].image,
+					currentHP: data[j].defaultHP,
+					attackBonus: data[j].attackBonus
 				});
 			}
 			haveCharacter = false;
@@ -55,8 +55,8 @@ $(document).ready(function() {
 
 			for(var i = 0; i < enemyArray.length; i++) {
 				choices += "<div id=" + enemyArray[i].id + " class='btn character text-center' value=" + enemyArray[i].id +
-				"><img class='houses' src=" + enemyArray[i].pic + " alt=" + enemyArray[i].name + "><br> HP: " + enemyArray[i].hitPoints +
-				"<br> AP: " + enemyArray[i].attackPower + " </div>";
+				"><img class='houses' src=" + enemyArray[i].image + " alt=" + enemyArray[i].name + "><br> HP: " + enemyArray[i].currentHP +
+				"<br> AP: " + enemyArray[i].attackBonus + " </div>";
 			}
 
 			$("#picking").html(choices);
@@ -72,18 +72,18 @@ $(document).ready(function() {
 
 	function printCharacters() {
 		var hero = "<div id=" + enemyArray[myChar].id + " class='btn character text-center hero' value=" + enemyArray[myChar].id +
-			"><img class='houses' src=" + enemyArray[myChar].pic + " alt=" + enemyArray[myChar].name + "><br> HP: " + enemyArray[myChar].hitPoints +
-			"<br> AP: " + enemyArray[myChar].attackPower + " </div>";
+			"><img class='houses' src=" + enemyArray[myChar].image + " alt=" + enemyArray[myChar].name + "><br> HP: " + enemyArray[myChar].currentHP +
+			"<br> AP: " + enemyArray[myChar].attackBonus + " </div>";
 		var badguy = "<div id=" + enemyArray[opponentChar].id + " class='btn character text-center fighting' value=" + enemyArray[opponentChar].id +
-			"><img class='houses' src=" + enemyArray[opponentChar].pic + " alt=" + enemyArray[opponentChar].name + "><br> HP: " + enemyArray[opponentChar].hitPoints +
-			"<br> AP: " + enemyArray[opponentChar].attackPower + " </div>";
+			"><img class='houses' src=" + enemyArray[opponentChar].image + " alt=" + enemyArray[opponentChar].name + "><br> HP: " + enemyArray[opponentChar].currentHP +
+			"<br> AP: " + enemyArray[opponentChar].attackBonus + " </div>";
 		$('#myguy').html(hero);
 		$('#enemy').html(badguy);
 	}
 
 	function whatHappens() {
-		var description = "You attack " + enemyArray[opponentChar].name + " for " + enemyArray[myChar].attackPower + " damage!<br>" +
-			enemyArray[opponentChar].name + " counter attacks for " + enemyArray[opponentChar].attackPower + " damage!<br>" +
+		var description = "You attack " + enemyArray[opponentChar].name + " for " + enemyArray[myChar].attackBonus + " damage!<br>" +
+			enemyArray[opponentChar].name + " counter attacks for " + enemyArray[opponentChar].attackBonus + " damage!<br>" +
 			"Your attack power has increased by " + rounds + "!";
 		$('#whathappens').html(description);
 	}
@@ -163,11 +163,11 @@ $(document).ready(function() {
 		}
 		else if(haveCharacter && haveAttacker) {
 			rounds++;
-			enemyArray[opponentChar].hitPoints  = enemyArray[opponentChar].hitPoints - enemyArray[myChar].attackPower;	//Hit Them
-			enemyArray[myChar].hitPoints = enemyArray[myChar].hitPoints - enemyArray[opponentChar].attackPower;	//Get Hit
+			enemyArray[opponentChar].currentHP  = enemyArray[opponentChar].currentHP - enemyArray[myChar].attackBonus;	//Hit Them
+			enemyArray[myChar].currentHP = enemyArray[myChar].currentHP - enemyArray[opponentChar].attackBonus;	//Get Hit
 
 
-			if(enemyArray[opponentChar].hitPoints < 0) {
+			if(enemyArray[opponentChar].currentHP < 0) {
 				numEnemies--;
 				if(numEnemies > 0) {
 					$(".fighting").remove();
@@ -184,7 +184,7 @@ $(document).ready(function() {
 				}
 				
 			}
-			else if(enemyArray[myChar].hitPoints < 0) {
+			else if(enemyArray[myChar].currentHP < 0) {
 				whatHappens();
 				alert("Your house has been defeated!  Try again!");
 				loses++;
@@ -196,7 +196,7 @@ $(document).ready(function() {
 				printCharacters();
 			}
 
-			enemyArray[myChar].attackPower = enemyArray[myChar].attackPower + rounds;	//Get Stronger
+			enemyArray[myChar].attackBonus = enemyArray[myChar].attackBonus + rounds;	//Get Stronger
 		}
 	});
 
