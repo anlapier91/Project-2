@@ -63,7 +63,8 @@ function gameOver(){
 }
 
 function combatTurn(character1, character2){
-
+    console.log(character1);
+    console.log(character2);
     function gameOver(){
         if (character1.currentHP <= 0){
             console.log("You have been defeated! Would you like to play again?");
