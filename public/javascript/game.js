@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 	var myChar, opponentChar, choices, enemyArray, haveCharacter, haveAttacker, numEnemies, rounds;	//Set Global Variables
 	var wins = 0;
@@ -38,16 +39,17 @@ $(document).ready(function() {
 		$.get("/api/monsters").then(function(data){
 			enemyArray = [];
 			// console.log(data);
-			for(var j = 0; j < data.length; j++){
-				enemyArray.push(
-				{
-					id: data[j].id,
-					name: data[j].name,
-					image: data[j].image,
-					defaultHP: data[j].defaultHP,
-					attackBonus: data[j].attackBonus
-				});
-			}
+			// for(var j = 0; j < data.length; j++){
+			// 	enemyArray.push(
+			// 	{
+			// 		id: data[j].id,
+			// 		name: data[j].name,
+			// 		image: data[j].image,
+			// 		defaultHP: data[j].defaultHP,
+			// 		attackBonus: data[j].attackBonus
+			// 	});
+			// }
+			enemyArray =  data;
 			haveCharacter = false;
 			haveAttacker = false;
 			numEnemies = 3;
@@ -111,18 +113,18 @@ $(document).ready(function() {
 				$.get("api/monsters/" + id, function (data) 
 				{
 					console.log(data);
-						var character1 = {
+						var characterone = {
 								currentHP: data[0].defaultHP,
 								initiative: data[0].dexterity,
 								userControlled: true,
 								MonsterId: id
 						}
-						enemyArray[myChar].currentHP = character1.currentHP;
-						enemyArray[myChar].initiative = character1.initiative;
-						enemyArray[myChar].userControlled = character1.userControlled;
-						$.post("api/new", character1, function()
+						enemyArray[myChar].currentHP = characterone.currentHP;
+						enemyArray[myChar].initiative = characterone.initiative;
+						enemyArray[myChar].userControlled = characterone.userControlled;
+						$.post("api/new", characterone, function()
 						{
-							console.log(character1);
+							console.log(characterone);
 								//reload page(with 1st character)
 						});
 				});
@@ -142,20 +144,20 @@ $(document).ready(function() {
 				$.get("api/monsters/" + id, function (data) 
 				{
 					console.log(data);
-						var character2 = {
+						var charactertwo = {
 								currentHP: data[0].defaultHP,
 								initiative: data[0].dexterity,
 								userControlled: false,
 								MonsterId: id
 						}
 						
-						enemyArray[opponentChar].currentHP = character2.currentHP;
-						enemyArray[opponentChar].initiative = character2.initiative;
-						enemyArray[opponentChar].userControlled = character2.userControlled;
+						enemyArray[opponentChar].currentHP = charactertwo.currentHP;
+						enemyArray[opponentChar].initiative = charactertwo.initiative;
+						enemyArray[opponentChar].userControlled = charactertwo.userControlled;
 
-						$.post("api/new", character2, function()
+						$.post("api/new", charactertwo, function()
 						{
-							console.log(character2);
+							console.log(charactertwo);
 								//reload page(with 1st character)
 						});
 				});
@@ -177,6 +179,8 @@ $(document).ready(function() {
 			$('#whathappens').html("Pick who you are fighting!");
 		}
 		else if(haveCharacter && haveAttacker) {
+			combatTurn(enemyArray[myChar], enemyArray[opponentChar]);
+
 			rounds++;
 			enemyArray[opponentChar].currentHP  = enemyArray[opponentChar].currentHP - enemyArray[myChar].attackBonus;	//Hit Them
 			enemyArray[myChar].currentHP = enemyArray[myChar].currentHP - enemyArray[opponentChar].attackBonus;	//Get Hit
@@ -231,3 +235,114 @@ $(document).ready(function() {
 	getRecord();
 });
 
+function initiative(){
+	var dexMod = (Math.floor((dexterity-10)/2));
+	var result = (Math.floor(Math.random() * 20) + 1) + dexMod;
+	console.log(result);
+}
+
+function proficiency(challengeRating){
+	var prof = (Math.floor((challengeRating - 1)/4) + 2);
+	return prof;
+}
+
+function attackRoll(char1, char2){
+ var prof = proficiency(char1.challengeRating);
+ var strMod = (Math.floor((strength-10)/2));
+ var result =  (Math.floor(Math.random() * 20) + 1) + prof + strMod;
+	console.log(result);
+	if (char2.attackRoll >= char1.dexterity){
+			return [true, result];
+	} else {
+			return false;
+	}
+}
+
+function damageRoll(char1, char2){
+ var strMod = (Math.floor((strength-10)/2));
+ var result =  (Math.floor(Math.random() * 20) + 1) + strMod;
+	console.log(result);
+	char1.currentHP-=(result);
+}
+
+function gameOver(){
+	if (character1.currentHP <= 0){
+			console.log("You have been defeated! Would you like to play again?");
+			return true;
+	}
+	if (character2.currentHP <= 0){
+			console.log("You have emerged victorious! Would you like to play again?");
+			return true;
+	}
+}
+
+function combatTurn(character1, character2){
+	console.log(character1);
+	console.log(character2);
+
+	function initiativeResult(){
+		if (character1.initiative < character2.initiative) {
+			 return false;
+		}
+		else {
+				return true;
+		}
+	}
+
+	function gameOver(){
+			if (character1.currentHP <= 0){
+					console.log("You have been defeated! Would you like to play again?");
+					return true;
+			}
+			if (character2.currentHP <= 0){
+					console.log("You have emerged victorious! Would you like to play again?");
+					return true;
+			}
+	}
+
+	if (initiativeResult()){
+			var attack = attackRoll(character1, character2)
+			if (attack[0]){
+					damageRoll(character1, character2);
+			if (attack[1]===20){
+					damageRoll(character1, character2);
+					var strMod = (Math.floor((strength-10)/2));
+					currentHP.character2 += strMod.character1;
+			}
+
+			var attack = attackRoll(character2, character1)
+			if (!gameOver() && attack[0]){
+							damageRoll(character2, character1);
+					if (attack[1]===20){
+							damageRoll(character2, character1);
+							var strMod = (Math.floor((strength-10)/2));
+							currentHP.character1 += strMod.character2;
+					}
+					}
+	
+					gameOver();
+	}
+	else {
+			var attack = attackRoll(character2, character1)
+			if (attack[0]){
+					damageRoll(character2, character1);
+			if (attack[1]===20){
+					damageRoll(character2, character1);
+					var strMod = (Math.floor((strength-10)/2));
+					currentHP.character2 += strMod.character1;
+			}
+			}
+
+		 var attack = attackRoll(character1, character2)
+			if (!gameOver() && attack[0]){
+							damageRoll(character1, character2);
+					if (attack[1]===20){
+							damageRoll(character1, character2);
+							var strMod = (Math.floor((strength-10)/2));
+							currentHP.character1 += strMod.character2;
+					}
+					}
+			gameOver();
+	}
+}
+}
