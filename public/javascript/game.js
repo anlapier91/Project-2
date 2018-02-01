@@ -44,7 +44,7 @@ $(document).ready(function() {
 					id: data[j].id,
 					name: data[j].name,
 					image: data[j].image,
-					currentHP: data[j].defaultHP,
+					defaultHP: data[j].defaultHP,
 					attackBonus: data[j].attackBonus
 				});
 			}
@@ -55,7 +55,7 @@ $(document).ready(function() {
 
 			for(var i = 0; i < enemyArray.length; i++) {
 				choices += "<div id=" + enemyArray[i].id + " class='btn character text-center' value=" + enemyArray[i].id +
-				"><img class='houses' src=" + enemyArray[i].image + " alt=" + enemyArray[i].name + "><br> HP: " + enemyArray[i].currentHP +
+				"><img class='houses' src=" + enemyArray[i].image + " alt=" + enemyArray[i].name + "><br> HP: " + enemyArray[i].defaultHP +
 				"<br> AP: " + enemyArray[i].attackBonus + " </div>";
 			}
 
@@ -88,6 +88,13 @@ $(document).ready(function() {
 		$('#whathappens').html(description);
 	}
 
+	function initiative(dexterity){
+    var dexMod = (Math.floor((dexterity-10)/2));
+    var result = (Math.floor(Math.random() * 20) + 1) + dexMod;
+		console.log(result);
+		return result;
+}
+
 	function attachCharacterOnClick() {
 		$('.character').on("click", function(){
 			if(!haveCharacter) {	//Picking your character
@@ -110,7 +117,9 @@ $(document).ready(function() {
 								userControlled: true,
 								MonsterId: id
 						}
-						
+						enemyArray[myChar].currentHP = character1.currentHP;
+						enemyArray[myChar].initiative = character1.initiative;
+						enemyArray[myChar].userControlled = character1.userControlled;
 						$.post("api/new", character1, function()
 						{
 							console.log(character1);
@@ -128,19 +137,25 @@ $(document).ready(function() {
 				$('#whathappens').html("");
 				$("#todo").html("Keep clicking attack to duel!");
 
+				var id = $(this).attr('id');
+
 				$.get("api/monsters/" + id, function (data) 
 				{
 					console.log(data);
-						var character1 = {
+						var character2 = {
 								currentHP: data[0].defaultHP,
 								initiative: data[0].dexterity,
 								userControlled: false,
 								MonsterId: id
 						}
 						
-						$.post("api/new", character1, function()
+						enemyArray[opponentChar].currentHP = character2.currentHP;
+						enemyArray[opponentChar].initiative = character2.initiative;
+						enemyArray[opponentChar].userControlled = character2.userControlled;
+
+						$.post("api/new", character2, function()
 						{
-							console.log(character1);
+							console.log(character2);
 								//reload page(with 1st character)
 						});
 				});
