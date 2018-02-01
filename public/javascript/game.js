@@ -135,7 +135,7 @@ $(document).ready(function() {
 
 	function getRecord () {
 		$.get("/api/user_data").then(function(data) {
-			$("#winsloses").text("Player: " + data.email + " Wins: " + data.wins + " Losses: " + data.losses + " Ties: " + data.ties);
+			$("#winsloses").text("Player: " + data.email + " Wins: " + data.wins + " Losses: " + data.losses);
 		});
 	}
 
