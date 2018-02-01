@@ -23,3 +23,10 @@ VALUES ("Centaur", "https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/22
 -- inserts into combatants table
 INSERT INTO combatants (currentHP, initiative, MonsterId, userControlled)
 VALUES (45, 18, 4, true);
+
+--inserts into Attacks table
+INSERT INTO attacks (attackName, attackBonus, attackRange, attackTargets, damageDie, damageModifier, monsterId)
+VALUES ("Claws", 5, 5, 1, "2d6", 4);
+
+INSERT INTO attacks (attackName, attackBonus, attackRange, attackTargets, damageDie, damageModifier, monsterId)
+VALUES ("Bite", 3, 2, 1, "2d6", 2);
