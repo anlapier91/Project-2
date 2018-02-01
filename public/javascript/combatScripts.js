@@ -109,7 +109,7 @@ function combatTurn(character1, character2){
         }
 
        var attack = attackRoll(character1, character2)
-        if (!gameOver() && attack[0]{
+        if (!gameOver() && attack[0]){
                 damageRoll(character1, character2);
             if (attack[1]===20){
                 damageRoll(character1, character2);

@@ -8,51 +8,66 @@ $(document).ready(function() {
 		opponentChar;
 
 		choices = [];
-		enemyArray = [ {
-			id: 0,
-			name: "Character 1",
-			pic: 'http://via.placeholder.com/100x175',
-			hitPoints: 150,
-			attackPower: 5
-		}, {
-			id: 1,
-			name: "Character 2",
-			pic: 'http://via.placeholder.com/100x175',
-			hitPoints: 100,
-			attackPower: 25 		
-		}, {
-			id: 2,
-			name: "Character 3",
-			pic: 'http://via.placeholder.com/100x175',
-			hitPoints: 120,
-			attackPower: 19 
-		}, {
-			id: 3,
-			name: "Character 4",
-			pic: 'http://via.placeholder.com/100x175',
-			hitPoints: 140,
-			attackPower: 9 
-		} ];
 
-		haveCharacter = false;
-		haveAttacker = false;
-		numEnemies = 3;
-		rounds = 7;
+		// enemyArray = [ {
+		// 	id: 0,
+		// 	name: "Character 1",
+		// 	pic: 'http://via.placeholder.com/100x175',
+		// 	hitPoints: 150,
+		// 	attackPower: 5
+		// }, {
+		// 	id: 1,
+		// 	name: "Character 2",
+		// 	pic: 'http://via.placeholder.com/100x175',
+		// 	hitPoints: 100,
+		// 	attackPower: 25 		
+		// }, {
+		// 	id: 2,
+		// 	name: "Character 3",
+		// 	pic: 'http://via.placeholder.com/100x175',
+		// 	hitPoints: 120,
+		// 	attackPower: 19 
+		// }, {
+		// 	id: 3,
+		// 	name: "Character 4",
+		// 	pic: 'http://via.placeholder.com/100x175',
+		// 	hitPoints: 140,
+		// 	attackPower: 9 
+		// } ];
 
-		for(var i = 0; i < enemyArray.length; i++) {
-			choices += "<div id=" + enemyArray[i].id + " class='btn character text-center' value=" + enemyArray[i].id +
-			"><img class='houses' src=" + enemyArray[i].pic + " alt=" + enemyArray[i].name + "><br> HP: " + enemyArray[i].hitPoints +
-			"<br> AP: " + enemyArray[i].attackPower + " </div>";
-		}
+		$.get("/api/monsters").then(function(data){
+			enemyArray = [];
+			// console.log(data);
+			for(var j = 0; j < data.length; j++){
+				enemyArray.push(
+				{
+					id: data[j].id,
+					name: data[j].name,
+					pic: data[j].image,
+					hitPoints: data[j].defaultHP,
+					attackPower: data[j].attackBonus
+				});
+			}
+			haveCharacter = false;
+			haveAttacker = false;
+			numEnemies = 3;
+			rounds = 7;
 
-		$("#picking").html(choices);
-		$("#todo").html("Click to choose your house");
+			for(var i = 0; i < enemyArray.length; i++) {
+				choices += "<div id=" + enemyArray[i].id + " class='btn character text-center' value=" + enemyArray[i].id +
+				"><img class='houses' src=" + enemyArray[i].pic + " alt=" + enemyArray[i].name + "><br> HP: " + enemyArray[i].hitPoints +
+				"<br> AP: " + enemyArray[i].attackPower + " </div>";
+			}
 
-		$('.hero').remove();
-		$('.fighting').remove();
-		$('#whathappens').html("");
+			$("#picking").html(choices);
+			$("#todo").html("Click to choose your house");
 
-		attachCharacterOnClick();
+			$('.hero').remove();
+			$('.fighting').remove();
+			$('#whathappens').html("");
+
+			attachCharacterOnClick();
+		});
 	}
 
 	function printCharacters() {
@@ -76,7 +91,7 @@ $(document).ready(function() {
 	function attachCharacterOnClick() {
 		$('.character').on("click", function(){
 			if(!haveCharacter) {	//Picking your character
-				myChar = $(this).attr('id');
+				myChar = $(this).attr('id')-1;
 				$("#myguy").append(this);
 				$(this).addClass("hero");
 
@@ -105,7 +120,7 @@ $(document).ready(function() {
 			}
 			//You have a character and you're picking your opponent
 			else if(!haveAttacker && haveCharacter && myChar !== $(this).attr('id')) {	
-				opponentChar = $(this).attr('id');
+				opponentChar = $(this).attr('id')-1;
 				$("#enemy").append(this);
 				$(this).addClass("fighting");
 
