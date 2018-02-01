@@ -29,6 +29,16 @@ module.exports = function(app)
       });
     });
 
+    app.delete("/api/removeAttack/:id", function(req, res) {
+    	db.Attack.destroy({
+    		where: {
+    			id: req.params.id
+    		}
+    	}).then(function(dbAttacks) {
+    		res.json(dbAttacks);
+    	});
+    });
+
 
 
 

@@ -122,4 +122,4 @@ function combatTurn(character1, character2){
 }
 }
 
-module.export = combatTurn;
+module.exports = combatTurn;

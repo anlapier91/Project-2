@@ -10,30 +10,30 @@ $(document).ready(function() {
 		choices = [];
 		enemyArray = [ {
 			id: 0,
-			name: "Character 1",
-			pic: 'http://via.placeholder.com/100x175',
+			name: "Dragon",
+			pic: 'https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/215/1000/1000/636252764963208954.jpeg',
 			hitPoints: 150,
 			attackPower: 5
 		}, {
 			id: 1,
-			name: "Character 2",
-			pic: 'http://via.placeholder.com/100x175',
+			name: "Spooky shadow jaguar",
+			pic: 'https://media-waterdeep.cursecdn.com/attachments/2/648/beast.jpg',
 			hitPoints: 100,
 			attackPower: 25 		
 		}, {
 			id: 2,
-			name: "Character 3",
-			pic: 'http://via.placeholder.com/100x175',
+			name: "Gaint",
+			pic: 'https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/221/315/315/636252765234633232.jpeg',
 			hitPoints: 120,
 			attackPower: 19 
 		}, {
 			id: 3,
-			name: "Character 4",
-			pic: 'http://via.placeholder.com/100x175',
+			name: "Centar",
+			pic: 'https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/227/1000/1000/636252765573266420.jpeg',
 			hitPoints: 140,
 			attackPower: 9 
 		} ];
-
+ 
 		haveCharacter = false;
 		haveAttacker = false;
 		numEnemies = 3;
