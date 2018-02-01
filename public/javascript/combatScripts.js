@@ -120,5 +120,6 @@ function combatTurn(character1, character2){
         gameOver();
     }
 }
+}
 
 module.export = combatTurn;
