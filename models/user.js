@@ -28,11 +28,6 @@ module.exports = function(sequelize, DataTypes)
     {
       type: DataTypes.INTEGER,
       defaultValue: 0
-    },
-    ties: 
-    {
-      type: DataTypes.INTEGER,
-      defaultValue: 0
     }
   },
   {
