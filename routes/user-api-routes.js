@@ -47,6 +47,7 @@ module.exports = function(app)
     if (!req.user) {
       // The user is not logged in, send back an empty object
       res.json({});
+      // console.log('**********');
     }
     else {
       // Otherwise send back the user's email and id
@@ -66,20 +67,30 @@ module.exports = function(app)
       {
         email : req.body.email
       }
+    })
+    .then(function (data) {
+      console.log('data in updateWins: ',data);
+      res.json(data)
+    })
+    .catch(function (err) {
+      console.log('Error in updateWins: ', err);
     });
   });
 
-  app.put("/api/updateLosses/", function(req, res)
-  {
-    db.User.update(
-    {
-      losses: parseInt(req.body.losses)
-    },
+  app.put("/api/updateLosses/", function(req, res) {
+    db.User.update({
+      losses: parseInt(req.body.losses)},
     {
       where: 
       {
         email : req.body.email
       }
+    }).then(function (data) {
+      console.log('data in updatelosses: ',data);
+      res.json(data)
+    })
+    .catch(function (err) {
+      console.log('Error in updatelosses: ', err);
     });
   });
 
@@ -94,6 +105,7 @@ module.exports = function(app)
       {
         email : req.body.email
       }
-    });
+    })    
+    
   });
 };
