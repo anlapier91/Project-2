@@ -183,11 +183,6 @@ $(document).ready(function() {
 		});
 	}
 
-	function getRecord () {
-		$.get("/api/user_data").then(function(data) {
-			$("#winsloses").text("Player: " + data.email + " Wins: " + data.wins + " Losses: " + data.losses);
-		});
-	}
 
 	$('#attack').on("click", function() {
 		if(!haveCharacter) {
@@ -198,8 +193,8 @@ $(document).ready(function() {
 		}
 		else if(haveCharacter && haveAttacker) {
 			if(combatTurn(enemyArray[myChar], enemyArray[opponentChar])){
-
-			
+				getRecord();
+				varSet();
 				// console.log(altDescription);
 			}
 
@@ -247,7 +242,10 @@ $(document).ready(function() {
 
 	attachCharacterOnClick();
 	varSet();
-	getRecord();
+	$.get("/api/user_data").then(function(data1) {
+		console.log("updating winsloses", data1);
+		$("#winsloses").text("Player: " + data1.email + " Wins: " + data1.wins + " Losses: " + data1.losses);
+	});
 });
 
 function initiative(){
@@ -299,6 +297,7 @@ function damageRoll(char1, char2){
 
 function combatTurn(character1, character2){
 	altDescription = "";
+	var gameOverOut = "";
 	var temp = 0;
 	console.log(character1);
 	console.log(character2);
@@ -315,39 +314,14 @@ function combatTurn(character1, character2){
 	function gameOver(){
 			if (character1.currentHP <= 0){
 					console.log("You have been defeated! Would you like to play again?");
-					$.get("/api/user_data").then(function(data)
-					{
-						data.losses += 1;
-						$.ajax({
-							method: "PUT",
-							url: "/api/updateLosses/",
-							data: data
-						})
-						.then(function() {
-							console.log("updated losses");
-							varSet();
-							getRecord();
-							return true;
-						});
-					});
+					gameOverOut = "You have been defeated! Would you like to play again?";
+					return true;
+
 			}
 			if (character2.currentHP <= 0){
 					console.log("You have emerged victorious! Would you like to play again?");
-					$.get("/api/user_data").then(function(data)
-					{
-						data.wins += 1;
-						$.ajax({
-							method: "PUT",
-							url: "/api/updateWins/",
-							data: data
-						})
-						.then(function() {
-							console.log("updated Wins");
-							varSet();
-							getRecord();
-							return true;
-						});
-					});
+					gameOverOut = "You have emerged victorious! Would you like to play again?";
+					return true;
 			}
 			return false;
 	}
@@ -457,10 +431,60 @@ function combatTurn(character1, character2){
 			data: combatant2
     })
     .then(function() {
-      console.log("updated combatant2");
+			console.log("updated combatant2");
+			if(gameOverCheck){
+				console.log("game over: " + gameOverOut);
+				if(gameOverOut == "You have been defeated! Would you like to play again?"){
+					console.log("about to log defeat");
+					$.get("/api/user_data").then(function(data)
+					{
+						data.losses += 1;
+						console.log("get user data");
+						$.ajax({
+							method: "PUT",
+							url: "/api/updateLosses/",
+							data: data
+						}).then(function() {
+							console.log("updated losses");
+							getRecord(data);
+							// varSet();
+							// printCharacters();
+						}).fail(function(err){
+							console.log("error ", err);
+						});
+					});
+				} 
+				else
+				{
+					console.log("about to log win");
+					$.get("/api/user_data").then(function(data)
+					{
+						console.log("get user data");
+						data.wins += 1;
+						$.ajax({
+							method: "PUT",
+							url: "/api/updateWins/",
+							data: data
+						}).then(function() {
+							console.log("updated Wins");
+							getRecord(data);
+							// varSet();
+							// printCharacters();
+						}).fail(function(err){
+							console.log("error ", err);
+						});
+					});
+					$('#whathappens').html(gameOverOut);
+				}
+			}
 		});
 	});
 	console.log(character1);
 	console.log(character2);
 	return gameOverCheck;
+}
+
+function getRecord (data1) {
+	console.log("in getRecord", data1);
+	$("#winsloses").text("Player: " + data1.email + " Wins: " + data1.wins + " Losses: " + data1.losses);
 }
