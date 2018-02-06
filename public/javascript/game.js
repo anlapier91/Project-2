@@ -242,10 +242,7 @@ $(document).ready(function() {
 
 	attachCharacterOnClick();
 	varSet();
-	$.get("/api/user_data").then(function(data1) {
-		console.log("updating winsloses", data1);
-		$("#winsloses").text("Player: " + data1.email + " Wins: " + data1.wins + " Losses: " + data1.losses);
-	});
+	getRecord();
 });
 
 function initiative(){
@@ -446,9 +443,10 @@ function combatTurn(character1, character2){
 							data: data
 						}).then(function() {
 							console.log("updated losses");
-							getRecord(data);
+							getRecord();
 							// varSet();
 							// printCharacters();
+							$('#whathappens').html(gameOverOut);
 						}).fail(function(err){
 							console.log("error ", err);
 						});
@@ -467,14 +465,14 @@ function combatTurn(character1, character2){
 							data: data
 						}).then(function() {
 							console.log("updated Wins");
-							getRecord(data);
+							getRecord();
 							// varSet();
 							// printCharacters();
+							$('#whathappens').html(gameOverOut);
 						}).fail(function(err){
 							console.log("error ", err);
 						});
 					});
-					$('#whathappens').html(gameOverOut);
 				}
 			}
 		});
