@@ -57,6 +57,7 @@ $(document).ready(function() {
 				// 		attackBonus: data[j].attackBonus
 				// 	});
 				// }
+				console.log("monster retrieval: ", data);
 				enemyArray =  data;
 				haveCharacter = false;
 				haveAttacker = false;
