@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes)
         attackRange: DataTypes.INTEGER,
         attackTargets: DataTypes.INTEGER,
         damageDie: DataTypes.STRING,
-        damageModifier: DataTypes.INTEGER,
+        damageModifier: DataTypes.INTEGER
     }, 
     {
 		timestamps: false
