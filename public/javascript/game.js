@@ -484,7 +484,9 @@ function combatTurn(character1, character2){
 	return gameOverCheck;
 }
 
-function getRecord (data1) {
-	console.log("in getRecord", data1);
-	$("#winsloses").text("Player: " + data1.email + " Wins: " + data1.wins + " Losses: " + data1.losses);
+function getRecord () {
+	$.get("/api/user_data").then(function(data1) {
+		console.log("updating winsloses", data1);
+		$("#winsloses").text("Player: " + data1.email + " Wins: " + data1.wins + " Losses: " + data1.losses);
+	});
 }
