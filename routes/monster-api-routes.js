@@ -7,6 +7,7 @@ module.exports = function(app)
       // 1. Add a join to include all of each Author's Posts
       db.Monster.findAll({}).then(function(dbMonster) 
       {
+        console.log("/api/mosnters", dbMonster);
         res.json(dbMonster);
       });
     });
