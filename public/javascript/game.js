@@ -45,7 +45,6 @@ $(document).ready(function() {
 			// } ];
 
 			$.get("/api/monsters").then(function(data){
-				enemyArray = [];
 				// console.log(data);
 				// for(var j = 0; j < data.length; j++){
 				// 	enemyArray.push(
